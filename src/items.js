@@ -67,3 +67,18 @@ const SC=(name,pre,key,post,dur,short)=>({name:short,fs:true,dur,build(st,c){
   c.custom(t=>{mark.style.transform=`scaleX(${easeOut((t-1.3)/0.6)})`;});
 }});
 ITEMS.SC03=SC('Social Security Administration','2026 limit: ','$24,480','',7.17,'ssa-earnings-limit');
+
+// Excerpt source card: source name on top, the real quoted passage on a white card, key phrases picked out with a highlighter wipe.
+// marks: [[phrase, seconds]]. Phrase must appear verbatim in the excerpt.
+const EX=(name,excerpt,marks,dur,short)=>({name:short,fs:true,dur,build(st,c){
+  const top=c.el(name,'head','position:absolute;left:0;right:0;top:110px;text-align:center;font-size:80px');
+  const card=c.el('','card','position:absolute;left:150px;right:150px;top:270px;padding:64px 72px;font-size:50px;line-height:1.55;font-weight:500;color:#1E2A3A');
+  let html=excerpt;const wipes=[];
+  marks.forEach(([p,at],k)=>{html=html.replace(p,`<span class="mk" style="position:relative;isolation:isolate;font-weight:700"><i id="mk${k}" style="position:absolute;left:-8px;right:-8px;top:6%;bottom:2%;background:#C9922E;opacity:.4;border-radius:8px;z-index:-1;transform-origin:left center;transform:scaleX(0)"></i>${p}</span>`);wipes.push([k,at]);});
+  card.innerHTML=html;
+  const src=c.el(`Source: ${name}`,'src');
+  st.append(top,card,src);
+  c.enter(top,0);c.enter(card,0.3,{dy:30});c.enter(src,0.9,{dy:20});
+  wipes.forEach(([k,at])=>{const m=card.querySelector('#mk'+k);c.custom(t=>{m.style.transform=`scaleX(${easeOut((t-at)/0.6)})`;});});
+}});
+ITEMS.SC02=EX('SEAK Expert Witness Fee Survey','This summary report has been prepared to provide the reader with expert witness fee and billing information using a large sample size (over 1,600 experts, many of whom had more than one area of expertise). All survey information was provided by the responding experts in January &amp; February of 2024.',[['over 1,600 experts',1.2]],3.83,'seak-survey');

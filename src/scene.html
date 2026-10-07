@@ -25,11 +25,11 @@ body.preview-bg{background:#3A3F47}
 <script>
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const easeOut=x=>1-Math.pow(1-clamp(x),3);
-const tracks=[];window.sfx=[];
+const tracks=[];
 const ctx={
   // fade plus slide up, ease out
-  enter(el,at,{dur=0.45,dy=36}={}){sfx.push(['swoosh',at]);tracks.push(t=>{const p=easeOut((t-at)/dur);el.style.opacity=t<at?0:p;el.style.transform=`translateY(${(1-p)*dy}px)`;});},
-  bar(el,at,dur=0.4){sfx.push(['pop',at+dur*0.8]);tracks.push(t=>{el.style.transform=`scaleX(${easeOut((t-at)/dur)})`;});},
+  enter(el,at,{dur=0.45,dy=36}={}){tracks.push(t=>{const p=easeOut((t-at)/dur);el.style.opacity=t<at?0:p;el.style.transform=`translateY(${(1-p)*dy}px)`;});},
+  bar(el,at,dur=0.4){tracks.push(t=>{el.style.transform=`scaleX(${easeOut((t-at)/dur)})`;});},
   count(el,at,from,to,fmt,dur=0.8){tracks.push(t=>{const p=easeOut((t-at)/dur);el.textContent=fmt(Math.round(from+(to-from)*p));});},
   custom(fn){tracks.push(fn);},
   el(html,cls='',style=''){const d=document.createElement('div');d.className=cls;d.style.cssText=style;d.innerHTML=html;return d;},
@@ -39,7 +39,7 @@ window.setup=async(id)=>{
   if(it.fs) st.classList.add('fs');
   it.build(st,ctx,it);
   await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode()));
-  return {sfx,dur:it.dur,frames:Math.round(it.dur*30),fs:!!it.fs};
+  return {dur:it.dur,frames:Math.round(it.dur*30),fs:!!it.fs};
 };
 window.renderAt=t=>{tracks.forEach(f=>f(t));};
 </script></body></html>
