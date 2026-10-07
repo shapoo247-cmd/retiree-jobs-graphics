@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 const here=path.dirname(fileURLToPath(import.meta.url));
 const STYLE=process.env.STYLE||'';const V2=STYLE==='v2'||STYLE==='v3';
-const BLUR=STYLE==='v3'||STYLE==='v4';const K=BLUR?8:1;
+const BLUR=STYLE==='v3'||STYLE==='v4'||STYLE==='v5';const K=BLUR?8:1;
 const out=path.join(here,'..',STYLE?`renders_${STYLE}`:'renders');
 fs.mkdirSync(path.join(out,'_preview'),{recursive:true});
 const exe=fs.readdirSync(process.env.PLAYWRIGHT_BROWSERS_PATH||'/opt/pw-browsers').filter(d=>/^chromium-/.test(d)).map(d=>path.join('/opt/pw-browsers',d,'chrome-linux/chrome')).find(fs.existsSync);
@@ -17,13 +17,15 @@ for(const id of process.argv.slice(2)){
   await page.goto(pathToFileURL(path.join(here,STYLE||'.','scene.html')).href);
   await page.addScriptTag({url:pathToFileURL(path.join(here,STYLE||'.','items.js')).href}).catch(()=>{});
   const meta=await page.evaluate(async id=>{const m=await setup(id);m.name=ITEMS[id].name;return m;},id);
+  if(process.env.PREVIEW_ONLY){await page.evaluate(t=>renderAt(t),meta.dur-0.02);if(!meta.fs)await page.evaluate(()=>document.body.classList.add('preview-bg'));await page.screenshot({path:path.join(out,'_preview',`${id}.png`)});await page.close();console.log(id,'preview');continue;}
   const file=path.join(out,`${id}_${meta.name}.${meta.fs?'mp4':'mov'}`);
   const args=['-y','-loglevel','error','-f','image2pipe','-c:v',meta.fs?'mjpeg':'png','-framerate',String(30*K),'-i','-'];
   const vf=[];
   if(BLUR) vf.push('format=rgba',`tmix=frames=${K}`,`select='eq(mod(n\\,${K})\\,${K-1})'`,`setpts=N/(30*TB)`);
-  if(BLUR&&meta.fs) vf.push("curves=all='0/0 0.25/0.23 0.75/0.77 1/1'","colorbalance=rs=-0.01:bs=0.02:rh=0.02:bh=-0.015","eq=saturation=1.08:contrast=1.02");
+  if(STYLE==='v5'&&meta.fs) vf.push("curves=all='0/0 0.2/0.17 0.75/0.8 1/1'","colorbalance=rs=0.03:gs=-0.015:bs=0.05:rh=0.04:gh=-0.01:bh=0.02","eq=saturation=1.12:contrast=1.04","format=gbrp","split=2[a][b];[b]curves=all='0/0 0.62/0.02 0.82/0.5 1/1',gblur=sigma=22[bl];[a][bl]blend=all_mode=screen:all_opacity=0.32","noise=alls=2:allf=t");
+  else if(BLUR&&meta.fs) vf.push("curves=all='0/0 0.25/0.23 0.75/0.77 1/1'","colorbalance=rs=-0.01:bs=0.02:rh=0.02:bh=-0.015","eq=saturation=1.08:contrast=1.02");
   if(vf.length) args.push('-vf',vf.join(','));
-  if(meta.fs) args.push('-c:v','libx264','-pix_fmt','yuv420p','-crf','15','-preset','slow','-an','-movflags','+faststart');
+  if(meta.fs) args.push('-c:v','libx264','-pix_fmt','yuv420p','-crf',STYLE==='v5'?'19':'15','-preset','slow','-an','-movflags','+faststart');
   else args.push('-c:v','qtrle','-pix_fmt','argb');
   args.push('-frames:v',String(meta.frames),'-r','30',file);
   const ff=spawn('ffmpeg',args,{stdio:['pipe','inherit','inherit']});

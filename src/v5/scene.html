@@ -1,0 +1,82 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;font-weight:500;src:url(../node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2)}
+@font-face{font-family:Inter;font-weight:700;src:url(../node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2)}
+@font-face{font-family:Inter;font-weight:800;src:url(../node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2)}
+@font-face{font-family:Inter;font-weight:900;src:url(../node_modules/@fontsource/inter/files/inter-latin-900-normal.woff2)}
+/* Theme: Creator UI. Deep violet black, frosted glass cards with a violet edge glow, white type, green for money, yellow for emphasis. */
+:root{--bg:#09040F;--glass:rgba(30,16,53,.72);--edge:#A855F7;--edge2:#C084FC;--text:#FFFFFF;--lav:#D8B4FE;--sub:#94A3B8;--money:#22C55E;--yellow:#FACC15}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font-family:Inter,sans-serif;color:var(--text);font-variant-numeric:tabular-nums}
+body.preview-bg{background:#3A3F47}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+#stage.fs{background:radial-gradient(ellipse 95% 75% at 50% 112%,#4A1A8C 0%,#24104A 34%,#12082A 60%,#09040F 100%)}
+#bgl{position:absolute;inset:0;overflow:hidden}
+#cam{position:absolute;inset:0;transform-origin:50% 50%}
+.abs{position:absolute}
+.num{font-weight:900;color:var(--money);line-height:1;letter-spacing:-0.035em;text-shadow:0 0 36px rgba(34,197,94,.55),0 0 90px rgba(34,197,94,.30)}
+.head{font-weight:800;line-height:1.08;letter-spacing:-0.02em;text-shadow:0 0 34px rgba(192,132,252,.38)}
+.money{color:var(--money)}
+.numw{color:#fff;font-weight:900;line-height:1;letter-spacing:-0.035em;text-shadow:0 0 36px rgba(192,132,252,.7),0 0 90px rgba(168,85,247,.4)}
+.glass{position:relative;background:linear-gradient(160deg,rgba(58,28,104,.78),rgba(22,10,42,.82));border:2px solid #D8B4FE;border-radius:36px;backdrop-filter:blur(24px);box-shadow:0 0 0 1px rgba(216,180,254,.35),0 0 18px rgba(192,132,252,.75),0 0 64px rgba(168,85,247,.55),0 0 150px rgba(124,58,237,.42),inset 0 0 60px rgba(168,85,247,.20),inset 0 2px 0 rgba(255,255,255,.35)}
+.glass.abs{position:absolute}
+.num,.numw,.head{white-space:nowrap}
+.sweep{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
+.sweep i{position:absolute;top:-20%;bottom:-20%;width:34%;left:-40%;background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.26) 50%,transparent 100%);transform:skewX(-14deg)}
+.bk{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(216,180,254,.55) 0%,rgba(168,85,247,.28) 55%,rgba(168,85,247,0) 72%);mix-blend-mode:screen}
+.leak{position:absolute;border-radius:50%;mix-blend-mode:screen;filter:blur(90px)}
+.kw{background:linear-gradient(rgba(192,132,252,.5),rgba(192,132,252,.5)) no-repeat 0 50%/0% 100%;border-radius:.14em;padding:.02em .14em;margin:0 -.04em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.src{position:absolute;left:100px;bottom:56px;font-size:36px;font-weight:500;color:var(--sub)}
+</style></head>
+<body><div id="stage"><div id="bgl"></div><div id="cam"></div></div>
+<script src="items.js"></script>
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const expo=x=>{x=clamp(x);return x>=1?1:1-Math.pow(2,-9*x);};
+const tq=t=>Math.round(t*30)/30;
+const tracks=[];
+const ctx={
+  // pop: scale up from 86% with a short rise and blur settle, then a small 104% settle pulse
+  pop(el,at,{dur=0.8,dy=44,from=0.86,blur=14}={}){tracks.push(t=>{const p=expo((t-at)/dur);const pulse=Math.sin(Math.PI*clamp((t-at-0.15)/0.5))*0.025;
+    el.style.opacity=clamp(p*2.2);el.style.filter=p<1?`blur(${((1-p)*blur).toFixed(2)}px)`:'none';
+    el.style.transform=`translateY(${((1-p)*dy).toFixed(2)}px) scale(${(from+(1-from)*p+pulse).toFixed(4)})`;});},
+  // idle float: slow wiggle so cards feel alive; tq keeps all sub-frames of one frame identical
+  float(el,seed=0,amp=6){const o=el.style.transform||'';tracks.push(t=>{t=tq(t);el.style.marginTop=`${(Math.sin(t*1.6+seed)*amp).toFixed(2)}px`;});},
+  // typewriter with a glowing cursor on the last typed character
+  type(el,at,dur){
+    const chars=[];const walk=n=>{[...n.childNodes].forEach(ch=>{
+      if(ch.nodeType===3){const fr=document.createDocumentFragment();
+        [...ch.textContent].forEach(c=>{const s=document.createElement('span');s.textContent=c;fr.append(s);chars.push(s);});ch.replaceWith(fr);}
+      else if(ch.nodeType===1)walk(ch);});};
+    walk(el);const N=chars.length;
+    tracks.push(t=>{const k=clamp((tq(t)-at)/dur);const shown=Math.floor(k*N);
+      chars.forEach((s,i)=>{s.style.opacity=i<shown?1:0;s.style.boxShadow=(i===shown-1&&k<1)?'4px 0 0 #fff,4px 0 16px #C084FC':'none';});});
+    return N;},
+  // light sweep: a soft diagonal highlight glides across a glass card once, just after it lands
+  sweep(card,at,dur=1.1){const w=document.createElement('div');w.className='sweep';const i=document.createElement('i');w.append(i);card.append(w);
+    tracks.push(t=>{const p=clamp((tq(t)-at)/dur);i.style.left=`${(-40+160*p).toFixed(2)}%`;i.style.opacity=p>0&&p<1?1:0;});},
+  wipe(k,at,dur=0.6){tracks.push(t=>{k.style.backgroundSize=`${(expo((t-at)/dur)*100).toFixed(2)}% 100%`;});},
+  count(el,at,from,to,fmt,dur=1.4){tracks.push(t=>{const p=expo((tq(t)-at)/dur);el.textContent=fmt(Math.round(from+(to-from)*p));});},
+  custom(fn){tracks.push(fn);},
+  el(html,cls='',style=''){const d=document.createElement('div');d.className=cls;d.style.cssText=style;d.innerHTML=html;return d;},
+};
+window.setup=async(id)=>{
+  const it=ITEMS[id];const st=document.getElementById('stage');const cam=document.getElementById('cam');
+  if(it.fs){st.classList.add('fs');const bgl=document.getElementById('bgl');
+    // depth: soft bokeh specks at three parallax speeds, plus two slow light leaks
+    const specks=[];let seed=11;const rnd=()=>{seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;};
+    for(let i=0;i<16;i++){const sz=30+rnd()*110;const e=ctx.el('','bk',`width:${sz}px;height:${sz}px;left:${rnd()*1900}px;top:${rnd()*1080}px;opacity:${0.16+rnd()*0.3};filter:blur(${4+sz/12}px)`);bgl.append(e);specks.push([e,6+rnd()*22,rnd()*6]);}
+    const l1=ctx.el('','leak','width:900px;height:620px;background:#A855F7;left:-300px;top:-160px;opacity:.22');
+    const l2=ctx.el('','leak','width:800px;height:560px;background:#EC4899;left:1500px;top:760px;opacity:.12');
+    bgl.append(l1,l2);
+    tracks.push(t=>{t=tq(t);specks.forEach(([e,v,ph])=>{e.style.transform=`translate(${(Math.sin(t*0.4+ph)*30).toFixed(1)}px,${(-t*v).toFixed(1)}px)`;});
+      l1.style.transform=`translate(${(t*38).toFixed(1)}px,${(t*14).toFixed(1)}px)`;l2.style.transform=`translate(${(-t*30).toFixed(1)}px,${(-t*18).toFixed(1)}px)`;
+      cam.style.transform=`scale(${(1+0.055*clamp(t/it.dur)).toFixed(4)}) translate(${(-10*clamp(t/it.dur)).toFixed(2)}px,0px)`;});}
+  it.build(cam,ctx,it);
+  if(it.fs){const vg=ctx.el('','abs','inset:0;z-index:50;pointer-events:none;background:radial-gradient(ellipse 80% 75% at 50% 50%,rgba(0,0,0,0) 55%,rgba(2,0,8,.5) 100%)');st.append(vg);}
+  await document.fonts.ready;await Promise.all([...document.images].map(i=>i.decode()));
+  return {dur:it.dur,frames:Math.round(it.dur*30),fs:!!it.fs};
+};
+window.renderAt=t=>{tracks.forEach(f=>f(t));};
+</script></body></html>

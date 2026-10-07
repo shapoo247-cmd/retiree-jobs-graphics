@@ -1,7 +1,7 @@
 // Verifies every cue sheet item is defined with the cue sheet duration, and lists the IDs. Usage: node src/check.mjs [--files]
 import fs from 'node:fs';import vm from 'node:vm';import path from 'node:path';import {fileURLToPath} from 'node:url';
 const here=path.dirname(fileURLToPath(import.meta.url));
-const code=fs.readFileSync(path.join(here,'items.js'),'utf8');
+const STY=process.env.STYLE||'';const code=fs.readFileSync(path.join(here,STY,'items.js'),'utf8');
 const sandbox={clamp:(x,a=0,b=1)=>Math.min(b,Math.max(a,x)),easeOut:x=>x,Image:class{},document:{createTextNode:()=>({})}};
 vm.createContext(sandbox);vm.runInContext(code+';this.ITEMS=ITEMS;',sandbox);
 const rows=fs.readFileSync(path.join(here,'..','docs','cue-sheet.csv'),'utf8').trim().split('\n').slice(1).map(l=>l.split(','));
