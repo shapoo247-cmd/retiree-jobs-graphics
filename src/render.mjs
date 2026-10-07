@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 const here=path.dirname(fileURLToPath(import.meta.url));
 const STYLE=process.env.STYLE||'';const V2=STYLE==='v2'||STYLE==='v3';
-const BLUR=STYLE==='v3';const K=BLUR?8:1;
+const BLUR=STYLE==='v3'||STYLE==='v4';const K=BLUR?8:1;
 const out=path.join(here,'..',STYLE?`renders_${STYLE}`:'renders');
 fs.mkdirSync(path.join(out,'_preview'),{recursive:true});
 const exe=fs.readdirSync(process.env.PLAYWRIGHT_BROWSERS_PATH||'/opt/pw-browsers').filter(d=>/^chromium-/.test(d)).map(d=>path.join('/opt/pw-browsers',d,'chrome-linux/chrome')).find(fs.existsSync);
