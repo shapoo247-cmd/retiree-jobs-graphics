@@ -4,10 +4,9 @@ const ITEMS={};
 ITEMS.MG01={name:'500-an-hour',fs:true,dur:4.50,build(st,c){
   const wrap=c.el('','center');
   const num=c.el('$500','num','font-size:220px');
-  const bar=c.el('','bar','width:420px;margin:22px 0 34px');
-  const lab=c.el('an hour','head','font-size:96px');
-  wrap.append(num,bar,lab);st.append(wrap);
-  c.enter(num,0);c.bar(bar,0.5);c.enter(lab,0.45);
+  const lab=c.el('an hour','head','font-size:96px;margin-top:30px');
+  wrap.append(num,lab);st.append(wrap);
+  c.enter(num,0);c.enter(lab,0.45);
 }};
 
 ITEMS.MG09={name:'expert-witness-rates',fs:true,dur:16.27,build(st,c){
@@ -18,9 +17,8 @@ ITEMS.MG09={name:'expert-witness-rates',fs:true,dur:16.27,build(st,c){
     const a=c.el(l,'head','font-size:96px;text-align:right;padding-bottom:6px');
     const bw=c.el('','','');
     const b=c.el(v,'num','font-size:150px');
-    const bar=c.el('','bar','width:100%;margin-top:14px');
-    bw.append(b,bar);r.append(a,bw);wrap.append(r);
-    c.enter(r,at);c.bar(bar,at+0.5);
+    bw.append(b);r.append(a,bw);wrap.append(r);
+    c.enter(r,at);
   });
   st.append(wrap);
 }};
@@ -56,12 +54,16 @@ const SS=(file,coverX,coverY,box)=>({fs:false,build(st,c,it){
 ITEMS.SS01={name:'scotty',...SS('SS01_scotty_channel.png',242,120,[243,50,96,18]),dur:6.33,w:778,h:177,hlAt:1.5};
 
 // Source cards: source name at top, one key line large, small credit bottom left.
-const SC=(name,pre,money,post,dur,short)=>({name:short,fs:true,dur,build(st,c){
-  const top=c.el(name,'head','position:absolute;left:0;right:0;top:150px;text-align:center;font-size:84px;color:#1E2A3A');
-  const bar=c.el('','bar','position:absolute;left:760px;width:400px;top:270px');
-  const key=c.el(`${pre}<span class="money" style="font-weight:800">${money}</span>${post}`,'center','font-size:130px;font-weight:700;text-align:center;line-height:1.1;padding-top:60px');
+const SC=(name,pre,key,post,dur,short)=>({name:short,fs:true,dur,build(st,c){
+  const top=c.el(name,'head','position:absolute;left:0;right:0;top:150px;text-align:center;font-size:84px');
+  const mark=c.el('','','position:absolute;left:-18px;right:-18px;top:14%;bottom:2%;background:#C9922E;opacity:.4;border-radius:10px;z-index:-1;transform-origin:left center;transform:scaleX(0)');
+  const span=c.el(key,'money','display:inline-block;position:relative;isolation:isolate;font-weight:800');
+  span.append(mark);
+  const line=c.el('','center','font-size:130px;font-weight:700;text-align:center;line-height:1.2;padding-top:20px');
+  line.append(document.createTextNode(pre),span,document.createTextNode(post));
   const src=c.el(`Source: ${name}`,'src');
-  st.append(top,bar,key,src);
-  c.enter(top,0);c.bar(bar,0.35);c.enter(key,0.6);c.enter(src,1.0,{dy:20});
+  st.append(top,line,src);
+  c.enter(top,0);c.enter(line,0.5);c.enter(src,1.0,{dy:20});
+  c.custom(t=>{mark.style.transform=`scaleX(${easeOut((t-1.3)/0.6)})`;});
 }});
 ITEMS.SC03=SC('Social Security Administration','2026 limit: ','$24,480','',7.17,'ssa-earnings-limit');
