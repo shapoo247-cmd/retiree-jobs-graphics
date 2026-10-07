@@ -70,15 +70,19 @@ ITEMS.SC03=SC('Social Security Administration','2026 limit: ','$24,480','',7.17,
 
 // Excerpt source card: source name on top, the real quoted passage on a white card, key phrases picked out with a highlighter wipe.
 // marks: [[phrase, seconds]]. Phrase must appear verbatim in the excerpt.
-const EX=(name,excerpt,marks,dur,short)=>({name:short,fs:true,dur,build(st,c){
+const EX=(name,excerpt,marks,dur,short,{size=50,tail=''}={})=>({name:short,fs:true,dur,build(st,c){
   const top=c.el(name,'head','position:absolute;left:0;right:0;top:110px;text-align:center;font-size:80px');
-  const card=c.el('','card','position:absolute;left:150px;right:150px;top:270px;padding:64px 72px;font-size:50px;line-height:1.55;font-weight:500;color:#1E2A3A');
+  const card=c.el('','card',`position:absolute;left:150px;right:150px;top:270px;padding:64px 72px;font-size:${size}px;line-height:1.5;font-weight:500;color:#1E2A3A`);
   let html=excerpt;const wipes=[];
-  marks.forEach(([p,at],k)=>{html=html.replace(p,`<span class="mk" style="position:relative;isolation:isolate;font-weight:700"><i id="mk${k}" style="position:absolute;left:-8px;right:-8px;top:6%;bottom:2%;background:#C9922E;opacity:.4;border-radius:8px;z-index:-1;transform-origin:left center;transform:scaleX(0)"></i>${p}</span>`);wipes.push([k,at]);});
-  card.innerHTML=html;
+  marks.forEach(([p,at],k)=>{html=html.replace(p,`<span class="mk" id="mk${k}" style="font-weight:700;padding:0 6px;margin:0 -6px;border-radius:8px;-webkit-box-decoration-break:clone;box-decoration-break:clone;background:linear-gradient(rgba(201,146,46,.4),rgba(201,146,46,.4)) no-repeat 0 55%/0% 88%">${p}</span>`);wipes.push([k,at]);});
+  card.innerHTML=html+(tail?`<div style="margin-top:36px;font-size:72px;font-weight:700">${tail}</div>`:'');
   const src=c.el(`Source: ${name}`,'src');
   st.append(top,card,src);
   c.enter(top,0);c.enter(card,0.3,{dy:30});c.enter(src,0.9,{dy:20});
-  wipes.forEach(([k,at])=>{const m=card.querySelector('#mk'+k);c.custom(t=>{m.style.transform=`scaleX(${easeOut((t-at)/0.6)})`;});});
+  wipes.forEach(([k,at])=>{const m=card.querySelector('#mk'+k);c.custom(t=>{m.style.backgroundSize=`${easeOut((t-at)/0.6)*100}% 88%`;});});
+  const tm=card.querySelector('#mkT');if(tm)c.custom(t=>{tm.style.transform=`scaleX(${easeOut((t-2.6)/0.6)})`;});
 }});
 ITEMS.SC02=EX('SEAK Expert Witness Fee Survey','This summary report has been prepared to provide the reader with expert witness fee and billing information using a large sample size (over 1,600 experts, many of whom had more than one area of expertise). All survey information was provided by the responding experts in January &amp; February of 2024.',[['over 1,600 experts',1.2]],3.83,'seak-survey');
+
+ITEMS.SC08=EX('University of Vermont',"UVM's End-of-Life Doula training will guide you in providing emotional, spiritual, and physical support at the end of life.",[['End-of-Life Doula training',1.2]],11.87,'uvm-doula-certificate',{size:60,tail:'End-of-life doula certificate: <span class="money" style="font-weight:800;position:relative;isolation:isolate">$895<i id="mkT" style="position:absolute;left:-10px;right:-10px;top:8%;bottom:0;background:#C9922E;opacity:.4;border-radius:8px;z-index:-1;transform-origin:left center;transform:scaleX(0)"></i></span>'});
+ITEMS.SC09=EX('Texas Department of Insurance','You can apply for a 90-day emergency adjuster license during a disaster.',[['90-day emergency adjuster license',1.4]],10.83,'tdi-emergency-adjuster',{size:72});
