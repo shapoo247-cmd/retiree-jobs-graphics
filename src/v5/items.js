@@ -188,7 +188,7 @@ const EX=(name,excerpt,keyPhrase,dur,short,{size=52,tail=''}={})=>({name:short,f
   const src=c.el(`Source: ${name}`,'src');
   st.append(top,card,src);
   c.pop(top,0,{dy:30,from:0.94});c.pop(card,0.2,{dy:60,from:0.94});c.sweep(card,0.7);
-  const plain=excerpt.replace(/<[^>]+>/g,'').length;const td=Math.max(0.8,plain*TYPE_CPS);
+  const plain=excerpt.replace(/<[^>]+>/g,'').length;const td=Math.min(Math.max(0.8,plain*TYPE_CPS),dur*0.5);
   const tailEl=null;
   c.type(card.querySelector('.kw').parentNode===card?card:card,0.5,td);
   c.pop(src,0.9,{dy:20,from:0.96});
