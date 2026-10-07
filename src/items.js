@@ -46,12 +46,11 @@ const SS=(file,coverX,coverY,box)=>({fs:false,build(st,c,it){
   const inner=c.el('','','position:relative;width:100%;height:100%');
   const img=new Image();img.src='../screenshots/'+file;img.style.cssText=`width:${W}px;height:${H}px;display:block`;
   const cover=c.el('','abs',`left:${coverX*2}px;top:${coverY*2}px;right:0;bottom:0;background:#fff`);
-  const hl=c.el('','abs',`left:${box[0]*2}px;top:${box[1]*2}px;width:${box[2]*2}px;height:${box[3]*2}px`);
-  hl.innerHTML=`<svg width="100%" height="100%" style="overflow:visible"><rect id="hlr" x="0" y="0" width="${box[2]*2}" height="${box[3]*2}" rx="10" fill="none" stroke="#C9922E" stroke-width="6" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>`;
+  // highlighter marker: translucent gold wipes left to right over the text
+  const hl=c.el('','abs',`left:${box[0]*2}px;top:${box[1]*2}px;width:${box[2]*2}px;height:${box[3]*2+2}px;background:#C9922E;opacity:.7;mix-blend-mode:multiply;border-radius:6px;transform-origin:left center;transform:scaleX(0)`);
   inner.append(img,cover,hl);card.append(inner);
   const wrap=c.el('','abs','inset:0;transform-origin:50% 50%');wrap.append(card);st.append(wrap);
   c.enter(card,0.1);
-  const r=hl.querySelector('rect');
-  c.custom(t=>{r.style.strokeDashoffset=1-easeOut((t-it.hlAt)/0.8);wrap.style.transform=`scale(${1+0.06*clamp(t/it.dur)})`;});
+  c.custom(t=>{hl.style.transform=`scaleX(${easeOut((t-it.hlAt)/0.7)})`;wrap.style.transform=`scale(${1+0.06*clamp(t/it.dur)})`;});
 }});
-ITEMS.SS01={name:'scotty',...SS('SS01_scotty_channel.png',242,120,[242,50,98,18]),dur:6.33,w:778,h:177,hlAt:1.5};
+ITEMS.SS01={name:'scotty',...SS('SS01_scotty_channel.png',242,120,[243,50,96,18]),dur:6.33,w:778,h:177,hlAt:1.5};
