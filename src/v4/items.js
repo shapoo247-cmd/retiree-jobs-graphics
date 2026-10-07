@@ -54,6 +54,6 @@ ITEMS.SS01={name:'scotty',fs:false,dur:6.33,build(st,c,it){
   const hl=c.el('','abs',`left:${243*s}px;top:${50*s}px;width:${96*s}px;height:${18*s+2}px;background:#FACC15;opacity:.8;mix-blend-mode:multiply;border-radius:6px;transform-origin:left;transform:scaleX(0)`);
   inner.append(img,cover,hl);card.append(inner);persp.append(card);st.append(persp);
   c.custom(t=>{t=tq(t);const p=expo((t-0.1)/1.1);card.style.opacity=clamp(p*2.2);card.style.filter=p<1?`blur(${((1-p)*14).toFixed(2)}px)`:'none';
-    card.style.transform=`translateY(${((1-p)*80).toFixed(2)}px) rotateX(${((1-p)*14).toFixed(2)}deg) rotateY(${((1-p)*-10).toFixed(2)}deg) scale(${(1+0.06*clamp(t/it.dur)).toFixed(4)})`;
+    card.style.transform=`translateY(${((1-p)*80).toFixed(2)}px) rotateX(${((1-p)*14).toFixed(2)}deg) rotateY(${((1-p)*-10).toFixed(2)}deg)`;
     hl.style.transform=`scaleX(${expo((t-1.6)/0.7).toFixed(4)})`;});
 }};
