@@ -54,3 +54,14 @@ const SS=(file,coverX,coverY,box)=>({fs:false,build(st,c,it){
   c.custom(t=>{hl.style.transform=`scaleX(${easeOut((t-it.hlAt)/0.7)})`;wrap.style.transform=`scale(${1+0.06*clamp(t/it.dur)})`;});
 }});
 ITEMS.SS01={name:'scotty',...SS('SS01_scotty_channel.png',242,120,[243,50,96,18]),dur:6.33,w:778,h:177,hlAt:1.5};
+
+// Source cards: source name at top, one key line large, small credit bottom left.
+const SC=(name,pre,money,post,dur,short)=>({name:short,fs:true,dur,build(st,c){
+  const top=c.el(name,'head','position:absolute;left:0;right:0;top:150px;text-align:center;font-size:84px;color:#1E2A3A');
+  const bar=c.el('','bar','position:absolute;left:760px;width:400px;top:270px');
+  const key=c.el(`${pre}<span class="money" style="font-weight:800">${money}</span>${post}`,'center','font-size:130px;font-weight:700;text-align:center;line-height:1.1;padding-top:60px');
+  const src=c.el(`Source: ${name}`,'src');
+  st.append(top,bar,key,src);
+  c.enter(top,0);c.bar(bar,0.35);c.enter(key,0.6);c.enter(src,1.0,{dy:20});
+}});
+ITEMS.SC03=SC('Social Security Administration','2026 limit: ','$24,480','',7.17,'ssa-earnings-limit');
