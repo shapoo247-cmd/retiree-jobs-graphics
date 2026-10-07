@@ -5,14 +5,15 @@ import path from 'node:path';
 import fs from 'node:fs';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 const here=path.dirname(fileURLToPath(import.meta.url));
-const out=path.join(here,'..','renders');
+const V2=process.env.STYLE==='v2';
+const out=path.join(here,'..',V2?'renders_v2':'renders');
 fs.mkdirSync(path.join(out,'_preview'),{recursive:true});
 const exe=fs.readdirSync(process.env.PLAYWRIGHT_BROWSERS_PATH||'/opt/pw-browsers').filter(d=>/^chromium-/.test(d)).map(d=>path.join('/opt/pw-browsers',d,'chrome-linux/chrome')).find(fs.existsSync);
 const browser=await chromium.launch({executablePath:exe,args:['--allow-file-access-from-files','--force-device-scale-factor=1']});
 for(const id of process.argv.slice(2)){
   const page=await browser.newPage({viewport:{width:1920,height:1080}});
-  await page.goto(pathToFileURL(path.join(here,'scene.html')).href);
-  await page.addScriptTag({url:pathToFileURL(path.join(here,'items.js')).href}).catch(()=>{});
+  await page.goto(pathToFileURL(path.join(here,V2?'v2':'.','scene.html')).href);
+  await page.addScriptTag({url:pathToFileURL(path.join(here,V2?'v2':'.','items.js')).href}).catch(()=>{});
   const meta=await page.evaluate(async id=>{const m=await setup(id);m.name=ITEMS[id].name;return m;},id);
   const file=path.join(out,`${id}_${meta.name}.${meta.fs?'mp4':'mov'}`);
   const args=['-y','-loglevel','error','-f','image2pipe','-framerate','30','-i','-'];
