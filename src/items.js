@@ -187,11 +187,11 @@ ITEMS.MG16.build=(st,c)=>{
   c.enter(l,1.63);c.enter(big,1.63);c.enter(was,5.03);
 };
 ITEMS.MG17={name:'state-rules',fs:true,dur:15.50,build(st,c){
-  const wrap=c.el('','center','align-items:flex-start;gap:34px;padding-left:230px;box-sizing:border-box');
+  const wrap=c.el('','center','align-items:flex-start;gap:34px;padding-left:150px;box-sizing:border-box');
   const head=c.el('State rules','head','font-size:72px;color:#5A6472;font-weight:500;margin-bottom:16px');
   wrap.append(head);c.enter(head,0);
   [['Florida:','under <span class="money" style="font-weight:800">$2,500</span>',0],['Arizona:','under <span class="money" style="font-weight:800">$1,000</span>',5.20],['Texas:','no handyman license',8.33],['Washington:','register',11.07]].forEach(([s,v,at])=>{
-    const r=c.el(`<span style="display:inline-block;width:560px">${s}</span>${v}`,'head','font-size:100px');wrap.append(r);c.enter(r,at);});
+    const r=c.el(`<span style="display:inline-block;width:640px">${s}</span>${v}`,'head','font-size:92px');wrap.append(r);c.enter(r,at);});
   st.append(wrap);
 }};
 ITEMS.MG18=LT('65-per-hour',8.27,`${money('$65/hr')}`,'2 hour minimum');
@@ -202,7 +202,7 @@ ITEMS.MG22=LT('cases-a-year',6.63,'1 or 2 cases a year');
 ITEMS.MG23=TITLE('title-tax-preparer',2.93,4,'Seasonal tax preparer');
 ITEMS.MG24={name:'tax-return-math',fs:true,dur:13.67,build(st,c){
   const wrap=c.el('','center','gap:34px;text-align:center');
-  const a=c.el('<span class="num" style="font-size:170px">$240</span> <span class="head" style="font-size:96px">a return</span>','');
+  const a=c.el('<span class="num" style="font-size:170px">$240</span> <span class="head" style="font-size:96px;margin-left:28px">a return</span>','');
   const b=c.el('× 150 returns','head','font-size:120px');
   const r=c.el('= <span class="num" style="font-size:230px">$36,000</span>','head','font-size:150px');
   wrap.append(a,b,r);st.append(wrap);
@@ -226,7 +226,7 @@ ITEMS.MG39=FS('145-to-225',8.23,[{html:'$145 to $225',cls:'num',size:200,at:0},{
 ITEMS.MG40=TITLE('title-estate-sale-liquidator',2.90,9,'Estate sale liquidator');
 ITEMS.MG41={name:'40-percent-of-20000',fs:true,dur:8.93,build(st,c){
   const wrap=c.el('','center','gap:34px;text-align:center');
-  const a=c.el(`<span class="num" style="font-size:200px">$20,000</span> <span class="head" style="font-size:96px">sale</span>`,'');
+  const a=c.el(`<span class="num" style="font-size:200px">$20,000</span> <span class="head" style="font-size:96px;margin-left:28px">sale</span>`,'');
   const b=c.el('× 40%','head','font-size:150px');
   const r=c.el('= <span class="num" style="font-size:230px">$8,000</span>','head','font-size:150px');
   wrap.append(a,b,r);st.append(wrap);
