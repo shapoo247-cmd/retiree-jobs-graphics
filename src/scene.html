@@ -1,0 +1,45 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;font-weight:500;src:url(node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2)}
+@font-face{font-family:Inter;font-weight:700;src:url(node_modules/@fontsource/inter/files/inter-latin-700-normal.woff2)}
+@font-face{font-family:Inter;font-weight:800;src:url(node_modules/@fontsource/inter/files/inter-latin-800-normal.woff2)}
+:root{--paper:#F7F3EC;--ink:#1E2A3A;--money:#2F7A55;--gold:#C9922E;--sub:#5A6472;--caution:#B5533C}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:transparent;font-family:Inter,sans-serif;color:var(--ink)}
+body.preview-bg{background:#3A3F47}
+#stage{position:relative;width:1920px;height:1080px}
+#stage.fs{background:var(--paper)}
+.abs{position:absolute}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.num{font-weight:800;color:var(--money);line-height:1;letter-spacing:-0.02em}
+.head{font-weight:700;line-height:1.1}
+.label{font-weight:500;color:var(--ink);line-height:1.1}
+.money{color:var(--money)}
+.bar{height:10px;background:var(--gold);border-radius:5px;transform-origin:left center;transform:scaleX(0)}
+.src{position:absolute;left:80px;bottom:60px;font-size:36px;font-weight:500;color:var(--sub)}
+.card{background:#fff;border-radius:24px;box-shadow:0 12px 40px rgba(30,42,58,.10)}
+</style></head>
+<body><div id="stage"></div>
+<script src="items.js"></script>
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const easeOut=x=>1-Math.pow(1-clamp(x),3);
+const tracks=[];
+const ctx={
+  // fade plus slide up, ease out
+  enter(el,at,{dur=0.45,dy=36}={}){tracks.push(t=>{const p=easeOut((t-at)/dur);el.style.opacity=t<at?0:p;el.style.transform=`translateY(${(1-p)*dy}px)`;});},
+  bar(el,at,dur=0.4){tracks.push(t=>{el.style.transform=`scaleX(${easeOut((t-at)/dur)})`;});},
+  count(el,at,from,to,fmt,dur=0.8){tracks.push(t=>{const p=easeOut((t-at)/dur);el.textContent=fmt(Math.round(from+(to-from)*p));});},
+  custom(fn){tracks.push(fn);},
+  el(html,cls='',style=''){const d=document.createElement('div');d.className=cls;d.style.cssText=style;d.innerHTML=html;return d;},
+};
+window.setup=async(id)=>{
+  const it=ITEMS[id]; const st=document.getElementById('stage');
+  if(it.fs) st.classList.add('fs');
+  it.build(st,ctx,it);
+  await document.fonts.ready; await Promise.all([...document.images].map(i=>i.decode()));
+  return {dur:it.dur,frames:Math.round(it.dur*30),fs:!!it.fs};
+};
+window.renderAt=t=>{tracks.forEach(f=>f(t));};
+</script></body></html>
