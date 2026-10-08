@@ -33,4 +33,5 @@ The editor (Safdar) cuts the video in DaVinci Resolve (free version) and places 
 1. Set up tooling (recommended: Remotion, or HTML/CSS frames captured with Playwright and encoded with ffmpeg). Get the Inter font from npm (`@fontsource/inter`).
 2. Render a SAMPLE of 4 items first: MG01, MG09 (build), MG28 (lower third), SS01 (screenshot card). Commit, push, and STOP. Ask the user to approve the look before rendering the rest.
 3. After approval, render all 62 items, check every duration against the cue sheet, commit and push.
-4. Finish with a short summary: the count rendered and any item you could not build as specified.
+4. Run `python tools/make_timeline.py` to write `renders/ai-jobs-graphics.edl`, `renders/ai-jobs-graphics.fcpxml` and `renders/timeline-report.txt`. Commit and push them with the clips. The report must say "Placed 62 of 62".
+5. Finish with a short summary: the count rendered and any item you could not build as specified.
