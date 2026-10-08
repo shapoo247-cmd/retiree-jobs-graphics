@@ -1,5 +1,7 @@
 # Task: Motion graphics for "9 Part-Time Jobs for Retirees"
 
+> If you were asked to find B-roll / stock footage, ignore this file and follow `docs/broll-task.md` instead.
+
 You are building every motion graphic for a 19:10 faceless YouTube video for a 50+ audience.
 The editor (Safdar) cuts the video in DaVinci Resolve (free version) and places each clip at its In timecode.
 

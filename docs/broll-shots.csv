@@ -1,0 +1,147 @@
+shot_id,row_id,in_tc,out_tc,in_sec,out_sec,duration_sec,what_to_show,search_terms,overlay_on_top
+B001,B001,00:00:22:25,00:00:28:09,22.833,28.300,5.47,Older man reading job listings on laptop,senior job search,
+B002a,B002,00:00:36:08,00:00:39:26,36.266,39.866,3.60,"Older applicant in job interview, young interviewer",age discrimination hiring,
+B002b,B002,00:00:39:26,00:00:43:14,39.866,43.466,3.60,"Older applicant in job interview, young interviewer",age discrimination hiring,
+B002c,B002,00:00:43:14,00:00:47:02,43.466,47.066,3.60,"Older applicant in job interview, young interviewer",age discrimination hiring,
+B003,B003,00:00:47:02,00:00:51:12,47.066,51.400,4.33,Close up of experienced craftsman hands at work,senior worker hands,
+B004a,B004,00:01:06:00,00:01:09:21,66.000,69.716,3.72,"Office retirement party, cake, handshake",retirement celebration office,
+B004b,B004,00:01:09:21,00:01:13:13,69.716,73.433,3.72,"Office retirement party, cake, handshake",retirement celebration office,
+B005a,B005,00:01:13:13,00:01:17:15,73.433,77.500,4.07,"Young employee confused at computer, error on screen",frustrated office worker report,
+B005b,B005,00:01:17:15,00:01:21:17,77.500,81.566,4.07,"Young employee confused at computer, error on screen",frustrated office worker report,
+B006,B006,00:01:21:17,00:01:27:07,81.566,87.233,5.67,"Retired man answering phone at home, smiling",senior phone call home,
+B007,B007,00:01:27:07,00:01:32:18,87.233,92.600,5.37,Older consultant walking into office with bag,senior consultant business,
+B008a,B008,00:01:32:18,00:01:36:24,92.600,96.789,4.19,Hands on calculator with paycheck,calculating hourly rate,MG06
+B008b,B008,00:01:36:24,00:01:40:29,96.789,100.977,4.19,Hands on calculator with paycheck,calculating hourly rate,MG06
+B008c,B008,00:01:40:29,00:01:45:05,100.977,105.166,4.19,Hands on calculator with paycheck,calculating hourly rate,MG06
+B009,B009,00:01:57:15,00:01:59:05,117.500,119.166,1.67,Social Security card and check,social security benefits,
+B010a,B010,00:02:06:15,00:02:10:01,126.500,130.022,3.52,Senior couple reviewing finances at kitchen table,retirement finances,MG08
+B010b,B010,00:02:10:01,00:02:13:16,130.022,133.544,3.52,Senior couple reviewing finances at kitchen table,retirement finances,MG08
+B010c,B010,00:02:13:16,00:02:17:02,133.544,137.066,3.52,Senior couple reviewing finances at kitchen table,retirement finances,MG08
+B011,B011,00:02:17:02,00:02:21:01,137.066,141.033,3.97,Older woman on phone with paperwork,pension phone call,
+B012a,B012,00:02:26:09,00:02:30:01,146.300,150.022,3.72,"Cracked building wall, surgeon in operating room, accountant ledger, reading case file","building crack, surgery, audit",
+B012b,B012,00:02:30:01,00:02:33:22,150.022,153.744,3.72,"Cracked building wall, surgeon in operating room, accountant ledger, reading case file","building crack, surgery, audit",
+B012c,B012,00:02:33:22,00:02:37:14,153.744,157.466,3.72,"Cracked building wall, surgeon in operating room, accountant ledger, reading case file","building crack, surgery, audit",
+B013,B013,00:03:01:15,00:03:04:13,181.500,184.433,2.93,Video call deposition on laptop,lawyer zoom meeting,
+B014a,B014,00:03:04:13,00:03:07:28,184.433,187.933,3.50,Man reading documents at home desk,reviewing legal documents,MG10
+B014b,B014,00:03:07:28,00:03:11:13,187.933,191.433,3.50,Man reading documents at home desk,reviewing legal documents,MG10
+B015,B015,00:03:11:13,00:03:15:25,191.433,195.833,4.40,Nurse reviewing medical records,nurse paperwork office,
+B016a,B016,00:03:55:11,00:04:00:02,235.366,240.055,4.69,"Senior woman tutoring on video call, older man filming himself on phone tripod","online tutoring senior, recording video at home",
+B016b,B016,00:04:00:02,00:04:04:22,240.055,244.744,4.69,"Senior woman tutoring on video call, older man filming himself on phone tripod","online tutoring senior, recording video at home",
+B016c,B016,00:04:04:22,00:04:09:13,244.744,249.433,4.69,"Senior woman tutoring on video call, older man filming himself on phone tripod","online tutoring senior, recording video at home",
+B017,B017,00:04:09:13,00:04:12:11,249.433,252.366,2.93,Older hands turning pages of notebook,experience wisdom,
+B018a,B018,00:04:18:26,00:04:22:03,258.866,262.111,3.24,"Graduation caps thrown, AI interface on screen, modern office","college graduation, artificial intelligence work",
+B018b,B018,00:04:22:03,00:04:25:11,262.111,265.355,3.24,"Graduation caps thrown, AI interface on screen, modern office","college graduation, artificial intelligence work",
+B018c,B018,00:04:25:11,00:04:28:18,265.355,268.600,3.24,"Graduation caps thrown, AI interface on screen, modern office","college graduation, artificial intelligence work",
+B019,B019,00:04:35:27,00:04:41:23,275.900,281.766,5.87,Retired man opening garage toolbox,senior DIY garage,
+B020,B020,00:04:44:00,00:04:47:17,284.000,287.566,3.57,Handyman fixing neighbor's fence,handyman repair,
+B021a,B021,00:04:57:12,00:05:01:14,297.400,301.455,4.06,"Handyman with drill, handyman at customer's front door",handyman work,"MG14, MG15"
+B021b,B021,00:05:01:14,00:05:05:15,301.455,305.511,4.06,"Handyman with drill, handyman at customer's front door",handyman work,"MG14, MG15"
+B021c,B021,00:05:05:15,00:05:09:17,305.511,309.566,4.06,"Handyman with drill, handyman at customer's front door",handyman work,"MG14, MG15"
+B022,B022,00:05:09:17,00:05:12:01,309.566,312.033,2.47,Old suburban house exterior,old American house,
+B023a,B023,00:05:46:11,00:05:49:23,346.366,349.783,3.42,Person watching tutorial on laptop,watching YouTube tutorial,
+B023b,B023,00:05:49:23,00:05:53:06,349.783,353.200,3.42,Person watching tutorial on laptop,watching YouTube tutorial,
+B024a,B024,00:05:53:06,00:05:57:10,353.200,357.333,4.13,Handyman writing a price estimate on clipboard,handyman estimate,MG18
+B024b,B024,00:05:57:10,00:06:01:14,357.333,361.466,4.13,Handyman writing a price estimate on clipboard,handyman estimate,MG18
+B025a,B025,00:06:01:14,00:06:05:13,361.466,365.444,3.98,Elderly homeowner opening door to friendly older handyman,senior handyman visit,
+B025b,B025,00:06:05:13,00:06:09:13,365.444,369.422,3.98,Elderly homeowner opening door to friendly older handyman,senior handyman visit,
+B025c,B025,00:06:09:13,00:06:13:12,369.422,373.400,3.98,Elderly homeowner opening door to friendly older handyman,senior handyman visit,
+B026a,B026,00:06:14:20,00:06:18:00,374.666,377.988,3.32,"Handyman carrying ladder, neighbors chatting over fence",word of mouth neighbors,
+B026b,B026,00:06:18:00,00:06:21:09,377.988,381.311,3.32,"Handyman carrying ladder, neighbors chatting over fence",word of mouth neighbors,
+B026c,B026,00:06:21:09,00:06:24:19,381.311,384.633,3.32,"Handyman carrying ladder, neighbors chatting over fence",word of mouth neighbors,
+B027a,B027,00:06:31:06,00:06:36:27,391.200,396.889,5.69,"Conference room hearing, three people at table listening, two parties arguing over money","arbitration meeting, business dispute",
+B027b,B027,00:06:36:27,00:06:42:17,396.889,402.577,5.69,"Conference room hearing, three people at table listening, two parties arguing over money","arbitration meeting, business dispute",
+B027c,B027,00:06:42:17,00:06:48:08,402.577,408.266,5.69,"Conference room hearing, three people at table listening, two parties arguing over money","arbitration meeting, business dispute",
+B028a,B028,00:07:01:11,00:07:04:18,421.366,424.600,3.23,Diploma and resume on desk,resume job application,MG20
+B028b,B028,00:07:04:18,00:07:07:25,424.600,427.833,3.23,Diploma and resume on desk,resume job application,MG20
+B029a,B029,00:07:07:25,00:07:13:05,427.833,433.155,5.32,"Librarian shelving books, accountant, panel of ordinary people","librarian, business meeting",
+B029b,B029,00:07:13:05,00:07:18:14,433.155,438.478,5.32,"Librarian shelving books, accountant, panel of ordinary people","librarian, business meeting",
+B029c,B029,00:07:18:14,00:07:23:24,438.478,443.800,5.32,"Librarian shelving books, accountant, panel of ordinary people","librarian, business meeting",
+B030,B030,00:07:32:14,00:07:36:17,452.466,456.566,4.10,Senior professionals in a meeting,older business people meeting,
+B031a,B031,00:07:46:19,00:07:52:16,466.633,472.544,5.91,"Calendar pages, older arbitrator listening, handshake","calendar, trust handshake",MG22
+B031b,B031,00:07:52:16,00:07:58:14,472.544,478.455,5.91,"Calendar pages, older arbitrator listening, handshake","calendar, trust handshake",MG22
+B031c,B031,00:07:58:14,00:08:04:11,478.455,484.366,5.91,"Calendar pages, older arbitrator listening, handshake","calendar, trust handshake",MG22
+B032,B032,00:08:04:11,00:08:10:02,484.366,490.066,5.70,"Calendar January to April, returning customers",tax season calendar,
+B033a,B033,00:08:13:02,00:08:16:20,493.066,496.666,3.60,Tax forms on desk,1040 tax form,
+B033b,B033,00:08:16:20,00:08:20:08,496.666,500.266,3.60,Tax forms on desk,1040 tax form,
+B034a,B034,00:08:33:29,00:08:39:07,513.966,519.244,5.28,"Tax office storefront, preparer helping client, now hiring sign",tax preparation office,MG25
+B034b,B034,00:08:39:07,00:08:44:16,519.244,524.522,5.28,"Tax office storefront, preparer helping client, now hiring sign",tax preparation office,MG25
+B034c,B034,00:08:44:16,00:08:49:24,524.522,529.800,5.28,"Tax office storefront, preparer helping client, now hiring sign",tax preparation office,MG25
+B035a,B035,00:09:04:02,00:09:08:14,544.066,548.477,4.41,Senior studying course on laptop,online course older adult,MG26
+B035b,B035,00:09:08:14,00:09:12:27,548.477,552.889,4.41,Senior studying course on laptop,online course older adult,MG26
+B035c,B035,00:09:12:27,00:09:17:09,552.889,557.300,4.41,Senior studying course on laptop,online course older adult,MG26
+B036,B036,00:09:17:09,00:09:19:05,557.300,559.166,1.87,Older tax preparers at work,senior accountant office,
+B037a,B037,00:09:25:02,00:09:29:22,565.066,569.722,4.66,"Retiree working at laptop, Social Security check",retiree part time job,
+B037b,B037,00:09:29:22,00:09:34:11,569.722,574.377,4.66,"Retiree working at laptop, Social Security check",retiree part time job,
+B037c,B037,00:09:34:11,00:09:39:01,574.377,579.033,4.66,"Retiree working at laptop, Social Security check",retiree part time job,
+B038a,B038,00:09:46:02,00:09:49:07,586.066,589.233,3.17,Person watching tax tutorial on laptop,tax video online,
+B038b,B038,00:09:49:07,00:09:52:12,589.233,592.399,3.17,Person watching tax tutorial on laptop,tax video online,
+B038c,B038,00:09:52:12,00:09:55:17,592.399,595.566,3.17,Person watching tax tutorial on laptop,tax video online,
+B039,B039,00:09:55:17,00:10:01:00,595.566,601.000,5.43,Handshake with client at tax office,happy client handshake,
+B040a,B040,00:10:23:24,00:10:30:07,623.800,630.233,6.43,"Quiet bedroom, family holding hands, caregiver at bedside, phone call (no patient faces)","hospice care home, caregiver comfort",
+B040b,B040,00:10:30:07,00:10:36:20,630.233,636.667,6.43,"Quiet bedroom, family holding hands, caregiver at bedside, phone call (no patient faces)","hospice care home, caregiver comfort",
+B040c,B040,00:10:36:20,00:10:43:03,636.667,643.100,6.43,"Quiet bedroom, family holding hands, caregiver at bedside, phone call (no patient faces)","hospice care home, caregiver comfort",
+B041a,B041,00:10:49:09,00:10:52:12,649.300,652.411,3.11,Caregiver holding elderly hand,comforting hand,MG31
+B041b,B041,00:10:52:12,00:10:55:16,652.411,655.522,3.11,Caregiver holding elderly hand,comforting hand,MG31
+B041c,B041,00:10:55:16,00:10:58:19,655.522,658.633,3.11,Caregiver holding elderly hand,comforting hand,MG31
+B042a,B042,00:11:15:04,00:11:19:01,675.133,679.050,3.92,Older women in a training class,senior women classroom,
+B042b,B042,00:11:19:01,00:11:22:29,679.050,682.966,3.92,Older women in a training class,senior women classroom,
+B043a,B043,00:11:22:29,00:11:28:04,682.966,688.122,5.16,"Hospice volunteer with badge, volunteer comforting family",hospice volunteer,
+B043b,B043,00:11:28:04,00:11:33:08,688.122,693.277,5.16,"Hospice volunteer with badge, volunteer comforting family",hospice volunteer,
+B043c,B043,00:11:33:08,00:11:38:13,693.277,698.433,5.16,"Hospice volunteer with badge, volunteer comforting family",hospice volunteer,
+B044,B044,00:11:50:09,00:11:54:24,710.300,714.800,4.50,Doula comforting family member,compassionate support,
+B045a,B045,00:12:02:19,00:12:08:16,722.633,728.533,5.90,"US Capitol, hallway queue, people lining up at dawn","Capitol building, people waiting in line",
+B045b,B045,00:12:08:16,00:12:14:13,728.533,734.433,5.90,"US Capitol, hallway queue, people lining up at dawn","Capitol building, people waiting in line",
+B045c,B045,00:12:14:13,00:12:20:10,734.433,740.333,5.90,"US Capitol, hallway queue, people lining up at dawn","Capitol building, people waiting in line",
+B046a,B046,00:12:20:10,00:12:23:11,740.333,743.355,3.02,"Broadway theater marquee, line outside theater",Broadway theater line,
+B046b,B046,00:12:23:11,00:12:26:11,743.355,746.378,3.02,"Broadway theater marquee, line outside theater",Broadway theater line,
+B046c,B046,00:12:26:11,00:12:29:12,746.378,749.400,3.02,"Broadway theater marquee, line outside theater",Broadway theater line,
+B047,B047,00:12:29:12,00:12:34:21,749.400,754.700,5.30,Person waiting in line checking phone,waiting in queue,
+B048a,B048,00:12:39:19,00:12:47:08,759.633,767.277,7.64,"Older man standing in line smiling, folding chair, queue timelapse, comfortable shoes",senior waiting in line,
+B048b,B048,00:12:47:08,00:12:54:28,767.277,774.922,7.64,"Older man standing in line smiling, folding chair, queue timelapse, comfortable shoes",senior waiting in line,
+B048c,B048,00:12:54:28,00:13:02:17,774.922,782.566,7.64,"Older man standing in line smiling, folding chair, queue timelapse, comfortable shoes",senior waiting in line,
+B049a,B049,00:13:02:17,00:13:06:03,782.566,786.100,3.53,"People in line in rain with umbrellas, dark early morning street",rain umbrella queue,
+B049b,B049,00:13:06:03,00:13:09:19,786.100,789.633,3.53,"People in line in rain with umbrellas, dark early morning street",rain umbrella queue,
+B050a,B050,00:13:09:19,00:13:13:18,789.633,793.617,3.98,Hurricane storm footage,hurricane wind rain,
+B050b,B050,00:13:13:18,00:13:17:18,793.617,797.600,3.98,Hurricane storm footage,hurricane wind rain,
+B051a,B051,00:13:21:06,00:13:28:28,801.200,808.933,7.73,"Hail damaged roofs, insurance adjuster with clipboard and tablet",insurance adjuster inspection,
+B051b,B051,00:13:28:28,00:13:36:20,808.933,816.667,7.73,"Hail damaged roofs, insurance adjuster with clipboard and tablet",insurance adjuster inspection,
+B051c,B051,00:13:36:20,00:13:44:12,816.667,824.400,7.73,"Hail damaged roofs, insurance adjuster with clipboard and tablet",insurance adjuster inspection,
+B052a,B052,00:13:51:19,00:13:54:23,831.633,834.766,3.13,Adjuster driving truck between homes,insurance adjuster car,MG36
+B052b,B052,00:13:54:23,00:13:57:27,834.766,837.900,3.13,Adjuster driving truck between homes,insurance adjuster car,MG36
+B053a,B053,00:14:02:02,00:14:08:23,842.066,848.766,6.70,"Weather radar, calm blue sky, phone ringing on desk","weather radar, calm sky",
+B053b,B053,00:14:08:23,00:14:15:14,848.766,855.466,6.70,"Weather radar, calm blue sky, phone ringing on desk","weather radar, calm sky",
+B053c,B053,00:14:15:14,00:14:22:05,855.466,862.166,6.70,"Weather radar, calm blue sky, phone ringing on desk","weather radar, calm sky",
+B054a,B054,00:14:22:05,00:14:26:10,862.166,866.333,4.17,"Exam room, fingerprint scanner","taking exam, fingerprinting",
+B054b,B054,00:14:26:10,00:14:30:15,866.333,870.500,4.17,"Exam room, fingerprint scanner","taking exam, fingerprinting",
+B055,B055,00:14:41:18,00:14:46:23,881.600,886.766,5.17,Online course on laptop,online training,
+B056a,B056,00:14:50:09,00:14:54:02,890.300,894.078,3.78,Older adjuster working at desk,senior office worker,MG37
+B056b,B056,00:14:54:02,00:14:57:26,894.078,897.855,3.78,Older adjuster working at desk,senior office worker,MG37
+B056c,B056,00:14:57:26,00:15:01:19,897.855,901.633,3.78,Older adjuster working at desk,senior office worker,MG37
+B057a,B057,00:15:09:29,00:15:13:17,909.966,913.577,3.61,"Water damage inspection indoors, drone over roof, courthouse exterior","water damage, roof drone, courthouse",
+B057b,B057,00:15:13:17,00:15:17:06,913.577,917.189,3.61,"Water damage inspection indoors, drone over roof, courthouse exterior","water damage, roof drone, courthouse",
+B057c,B057,00:15:17:06,00:15:20:24,917.189,920.800,3.61,"Water damage inspection indoors, drone over roof, courthouse exterior","water damage, roof drone, courthouse",
+B058a,B058,00:15:25:20,00:15:30:16,925.666,930.544,4.88,"Elderly person with caregiver, judge gavel, paying bills, for sale sign","guardianship, gavel, home for sale",
+B058b,B058,00:15:30:16,00:15:35:13,930.544,935.422,4.88,"Elderly person with caregiver, judge gavel, paying bills, for sale sign","guardianship, gavel, home for sale",
+B058c,B058,00:15:35:13,00:15:40:09,935.422,940.300,4.88,"Elderly person with caregiver, judge gavel, paying bills, for sale sign","guardianship, gavel, home for sale",
+B059a,B059,00:15:48:19,00:15:52:15,948.633,952.500,3.87,"Nonprofit office, social worker",nonprofit office,
+B059b,B059,00:15:52:15,00:15:56:11,952.500,956.366,3.87,"Nonprofit office, social worker",nonprofit office,
+B060a,B060,00:16:10:21,00:16:14:15,970.700,974.489,3.79,"Banker, social worker, adult child helping elderly parent with paperwork",helping parent finances,
+B060b,B060,00:16:14:15,00:16:18:08,974.489,978.277,3.79,"Banker, social worker, adult child helping elderly parent with paperwork",helping parent finances,
+B060c,B060,00:16:18:08,00:16:22:02,978.277,982.066,3.79,"Banker, social worker, adult child helping elderly parent with paperwork",helping parent finances,
+B061a,B061,00:16:22:02,00:16:32:07,982.066,992.244,10.18,"Classroom, exam, fingerprint scanner, diploma","adult education class, certification",
+B061b,B061,00:16:32:07,00:16:42:13,992.244,1002.422,10.18,"Classroom, exam, fingerprint scanner, diploma","adult education class, certification",
+B061c,B061,00:16:42:13,00:16:52:18,1002.422,1012.600,10.18,"Classroom, exam, fingerprint scanner, diploma","adult education class, certification",
+B062a,B062,00:16:52:18,00:16:56:00,1012.600,1015.989,3.39,"Court documents, aging population crowd","court papers, elderly population",
+B062b,B062,00:16:56:00,00:16:59:11,1015.989,1019.377,3.39,"Court documents, aging population crowd","court papers, elderly population",
+B062c,B062,00:16:59:11,00:17:02:23,1019.377,1022.766,3.39,"Court documents, aging population crowd","court papers, elderly population",
+B063a,B063,00:17:11:07,00:17:17:10,1031.233,1037.344,6.11,"House full of belongings, moving boxes, price tags, estate sale shoppers","estate sale, moving boxes",
+B063b,B063,00:17:17:10,00:17:23:14,1037.344,1043.455,6.11,"House full of belongings, moving boxes, price tags, estate sale shoppers","estate sale, moving boxes",
+B063c,B063,00:17:23:14,00:17:29:17,1043.455,1049.566,6.11,"House full of belongings, moving boxes, price tags, estate sale shoppers","estate sale, moving boxes",
+B064,B064,00:17:47:03,00:17:51:23,1067.100,1071.766,4.67,Estate sale owner pricing items,estate sale business,MG42
+B065a,B065,00:17:54:02,00:17:57:02,1074.066,1077.083,3.02,Movers lifting couch,movers furniture,
+B065b,B065,00:17:57:02,00:18:00:03,1077.083,1080.100,3.02,Movers lifting couch,movers furniture,
+B066a,B066,00:18:06:26,00:18:11:03,1086.866,1091.099,4.23,"Online auction on laptop, bidding",online auction,
+B066b,B066,00:18:11:03,00:18:15:10,1091.099,1095.333,4.23,"Online auction on laptop, bidding",online auction,
+B066c,B066,00:18:15:10,00:18:19:17,1095.333,1099.566,4.23,"Online auction on laptop, bidding",online auction,
+B067a,B067,00:18:19:17,00:18:24:01,1099.566,1104.033,4.47,"Family looking at old photos, antiques on table","family memories, antiques",
+B067b,B067,00:18:24:01,00:18:28:15,1104.033,1108.500,4.47,"Family looking at old photos, antiques on table","family memories, antiques",
