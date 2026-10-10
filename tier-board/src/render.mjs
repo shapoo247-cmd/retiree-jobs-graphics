@@ -15,11 +15,25 @@ const CHAPTERS = [
   ['sea-dried', 'DAYS'], ['snowball', 'HOURS'], ['great-dying', 'HOURS'],
   ['megaflood', 'MINUTES'], ['impact-day', 'SECONDS'],
 ];
-const ID = { 'impact-winter':'impact-winter','big-freeze':'big-freeze','supervolcano':'supervolcano','sea-dried':'sea-dried','snowball':'snowball','great-dying':'great-dying','megaflood':'megaflood','impact-day':'impact-day' };
 
+// T00 hook board, T01..T08 one clip per chapter (board state before it + the drag), T09 final board.
 const CLIPS = {
   'T00_hook-board': { dur: 4, scene: () => ({ fadeIn: [0, 0.5], placed: [], move: null }) },
-  'T01_impact-winter': { dur: 9, scene: () => ({ placed: [], cam: [0.8, 1.4, 6.0, 1.4], move: { id: 'impact-winter', row: 'MONTHS', t0: 2.6 } }) },
+};
+CHAPTERS.forEach(([id, row], i) => {
+  const placed = CHAPTERS.slice(0, i).map(([pid, prow]) => ({ id: pid, row: prow }));
+  const unlocked = row === 'SECONDS';
+  CLIPS[`T0${i + 1}_${id}`] = {
+    dur: 9,
+    scene: () => ({
+      placed, cam: [0.8, 1.4, 6.0, 1.4], move: { id, row, t0: 2.6 },
+      unlock: unlocked ? { t0: 0.4 } : null,
+    }),
+  };
+});
+CLIPS['T09_final-board'] = {
+  dur: 3,
+  scene: () => ({ fadeIn: [0, 0.4], placed: CHAPTERS.map(([id, row]) => ({ id, row })), move: null, unlock: { t0: -5 } }),
 };
 
 const name = process.argv[2];

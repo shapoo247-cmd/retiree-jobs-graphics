@@ -62,7 +62,7 @@ const svgURI=id=>{const s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 
 
 const ROW_X=150, LABEL_W=240, ROW_Y0=40, ROW_H=112, TRAY_X=150, TRAY_Y=898, SZ=112;
 const rowY=i=>ROW_Y0+i*ROW_H;
-const rowIndex=k=>ROWS.findIndex(r=>r.k===k);
+const rowIndex=k=>ROWS.findIndex(r=>r.k===(k==='SECONDS'?'LOCK':k));
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const easeOut=t=>1-Math.pow(1-t,3);
