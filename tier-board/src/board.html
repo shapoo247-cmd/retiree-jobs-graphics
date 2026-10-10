@@ -15,7 +15,7 @@ html,body{width:1920px;height:1080px;background:#1c1c1c;overflow:hidden;font-fam
 #tray-label i{display:inline-block;width:14px;height:14px;background:#e0426a;border-radius:50% 50% 50% 0;transform:rotate(-45deg);margin-right:14px}
 .tile{position:absolute;width:112px;height:112px;overflow:hidden;color:#fff;font-family:Anton,Inter,sans-serif;font-weight:400;font-size:25px;line-height:1.02;letter-spacing:.3px;text-align:center;display:flex;align-items:center;justify-content:center;padding:4px;text-shadow:0 2px 3px #000,0 0 5px #000,0 0 2px #000;will-change:transform}
 .tile span{position:relative;z-index:2}
-.tile img{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .tile:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.5))}
 #cursor{position:absolute;left:0;top:0;width:34px;height:40px;z-index:50;will-change:transform}
 </style></head><body>
@@ -72,7 +72,7 @@ const rowEls=ROWS.map((r,i)=>{
   d.innerHTML=`<div class="label" style="background:${r.color}">${r.k==="LOCK"?'<span class="lock">&#128274;</span>':r.label}</div>`;
   world.appendChild(d);return d;});
 const tileEls={};
-TILES.forEach(t=>{const e=document.createElement('div');e.className='tile';e.innerHTML=`<img src="${svgURI(t.id)}"><span${t.name.length>11&&!t.name.includes(' ')?' style="font-size:20px"':''}>${t.name}</span>`;world.appendChild(e);tileEls[t.id]=e;});
+TILES.forEach(t=>{const e=document.createElement('div');e.className='tile';e.innerHTML=`<img src="../assets/tiles/${t.id}.png" onerror="this.onerror=null;this.src=svgURI('${t.id}')"><span${t.name.length>11&&!t.name.includes(' ')?' style="font-size:20px"':''}>${t.name}</span>`;world.appendChild(e);tileEls[t.id]=e;});
 const cursor=document.getElementById('cursor');
 const trayPos=slot=>[TRAY_X+slot*SZ,TRAY_Y];
 const rowSlotPos=(row,idx)=>[ROW_X+LABEL_W+idx*SZ,rowY(rowIndex(row))];

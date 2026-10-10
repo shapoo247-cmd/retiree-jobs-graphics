@@ -33,6 +33,7 @@ const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromi
 const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
 await page.goto('file://' + path.join(here, 'board.html'));
 await page.evaluate(() => document.fonts.ready);
+for (let i = 0; i < 2; i++) await page.evaluate(() => Promise.all([...document.images].map(im => im.decode().catch(() => {}))));
 const S = clip.scene();
 for (let f = 0; f < frames; f++) {
   await page.evaluate(([t, S]) => window.draw(t, S), [f / FPS, S]);
