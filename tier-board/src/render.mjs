@@ -19,7 +19,7 @@ const ID = { 'impact-winter':'impact-winter','big-freeze':'big-freeze','supervol
 
 const CLIPS = {
   'T00_hook-board': { dur: 4, scene: () => ({ fadeIn: [0, 0.5], placed: [], move: null }) },
-  'T01_impact-winter': { dur: 6, scene: () => ({ placed: [], move: { id: 'impact-winter', row: 'MONTHS', t0: 0.6 } }) },
+  'T01_impact-winter': { dur: 8, scene: () => ({ placed: [], cam: [1.0, 0.8, 5.9, 0.8], move: { id: 'impact-winter', row: 'MONTHS', t0: 2.0 } }) },
 };
 
 const name = process.argv[2];
