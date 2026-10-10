@@ -1,0 +1,49 @@
+// Usage: node src/render.mjs <clipId> [--preview-only]
+import { chromium } from 'playwright-core';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, rmSync, copyFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const here = path.dirname(fileURLToPath(import.meta.url));
+const root = path.join(here, '..');
+const FPS = 30;
+
+// Chapter order = order tiles land. Row per script cue sheet.
+const CHAPTERS = [
+  ['impact-winter', 'MONTHS'], ['big-freeze', 'SURVIVES'], ['supervolcano', 'WEEKS'],
+  ['sea-dried', 'DAYS'], ['snowball', 'HOURS'], ['great-dying', 'HOURS'],
+  ['megaflood', 'MINUTES'], ['impact-day', 'SECONDS'],
+];
+const ID = { 'impact-winter':'impact-winter','big-freeze':'big-freeze','supervolcano':'supervolcano','sea-dried':'sea-dried','snowball':'snowball','great-dying':'great-dying','megaflood':'megaflood','impact-day':'impact-day' };
+
+const CLIPS = {
+  'T00_hook-board': { dur: 4, scene: () => ({ fadeIn: [0, 0.5], placed: [], move: null }) },
+  'T01_impact-winter': { dur: 6, scene: () => ({ placed: [], move: { id: 'impact-winter', row: 'MONTHS', t0: 0.6 } }) },
+};
+
+const name = process.argv[2];
+const clip = CLIPS[name];
+if (!clip) { console.error('unknown clip', name, Object.keys(CLIPS)); process.exit(1); }
+const frames = Math.round(clip.dur * FPS);
+const tmp = path.join(root, '.frames', name);
+rmSync(tmp, { recursive: true, force: true }); mkdirSync(tmp, { recursive: true });
+
+const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
+await page.goto('file://' + path.join(here, 'board.html'));
+await page.evaluate(() => document.fonts.ready);
+const S = clip.scene();
+for (let f = 0; f < frames; f++) {
+  await page.evaluate(([t, S]) => window.draw(t, S), [f / FPS, S]);
+  await page.screenshot({ path: path.join(tmp, `f${String(f).padStart(4, '0')}.png`) });
+}
+await browser.close();
+
+mkdirSync(path.join(root, 'renders/_preview'), { recursive: true });
+const out = path.join(root, 'renders', name + '.mp4');
+const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(tmp, 'f%04d.png'),
+  '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-crf', '16', '-r', String(FPS), out], { stdio: 'inherit' });
+if (r.status) process.exit(r.status);
+copyFileSync(path.join(tmp, `f${String(frames - 1).padStart(4, '0')}.png`), path.join(root, 'renders/_preview', name + '.png'));
+console.log('rendered', out, frames, 'frames');

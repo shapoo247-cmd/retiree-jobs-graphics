@@ -1,0 +1,132 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;font-weight:800;src:url(inter-latin-800-normal.woff2)}
+@font-face{font-family:Inter;font-weight:600;src:url(inter-latin-600-normal.woff2)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;background:#262626;overflow:hidden;font-family:Inter,sans-serif}
+#panel{position:absolute;left:30px;top:24px;width:1860px;height:1032px;background:#1c1c1c;border-radius:14px}
+.row{position:absolute;left:150px;width:1640px;height:112px;border-bottom:1px solid #000;background:#1b1b1b}
+.label{position:absolute;left:0;top:0;width:240px;height:112px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:600;color:#1a1a1a;text-align:center}
+.lock{font-size:40px;color:#777}
+#tray-label{position:absolute;left:150px;top:858px;color:#fff;font-size:26px;font-weight:600}
+#tray-label i{display:inline-block;width:14px;height:14px;background:#e0426a;border-radius:50% 50% 50% 0;transform:rotate(-45deg);margin-right:14px}
+.tile{position:absolute;width:112px;height:112px;overflow:hidden;color:#fff;font-weight:800;font-size:20px;line-height:1.05;text-align:center;display:flex;align-items:center;justify-content:center;padding:4px;text-shadow:0 2px 3px #000,0 0 6px #000;will-change:transform}
+.tile span{position:relative;z-index:1}
+.tile:before{content:"";position:absolute;inset:0;background:var(--bg)}
+.tile:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.55))}
+#cursor{position:absolute;left:0;top:0;width:34px;height:40px;z-index:50;will-change:transform}
+</style></head><body>
+<div id="panel"></div>
+<div id="tray-label"><i></i>Pin Images</div>
+<div id="cursor"><svg viewBox="0 0 24 28" width="34" height="40"><path d="M3 1v20l5-5 4 9 4-2-4-9h7z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+<script>
+const ROWS=[
+ {k:"LOCK",label:"",color:"#2b2b2b"},
+ {k:"MINUTES",label:"MINUTES",color:"#ff7f7f"},
+ {k:"HOURS",label:"HOURS",color:"#ffbf7f"},
+ {k:"DAYS",label:"DAYS",color:"#ffdf80"},
+ {k:"WEEKS",label:"WEEKS",color:"#ffff7f"},
+ {k:"MONTHS",label:"MONTHS",color:"#bfff7f"},
+ {k:"SURVIVES",label:"SURVIVES",color:"#7fff7f"}];
+const TILES=[
+ {id:"impact-winter",name:"Impact Winter",bg:"#5a4a44"},
+ {id:"big-freeze",name:"The Big Freeze",bg:"#3f6a86"},
+ {id:"supervolcano",name:"Supervolcano",bg:"#8a3b22"},
+ {id:"sea-dried",name:"The Sea That Dried Up",bg:"#a07a3a"},
+ {id:"snowball",name:"Snowball Earth",bg:"#6f97a8"},
+ {id:"great-dying",name:"The Great Dying",bg:"#6a2d2d"},
+ {id:"megaflood",name:"Megaflood",bg:"#2f5f8a"},
+ {id:"impact-day",name:"Impact Day",bg:"#7a3a1c"}];
+const ROW_X=150, LABEL_W=240, ROW_Y0=40, ROW_H=112, TRAY_X=150, TRAY_Y=898, SZ=112;
+const rowY=i=>ROW_Y0+i*ROW_H;
+const rowIndex=k=>ROWS.findIndex(r=>r.k===k);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;      // calm in-out
+const easeOut=t=>1-Math.pow(1-t,3);
+const panel=document.getElementById('panel');
+const rowEls=ROWS.map((r,i)=>{
+  const d=document.createElement('div');d.className='row';d.style.top=rowY(i)+'px';
+  d.innerHTML=`<div class="label" style="background:${r.color}">${r.k==="LOCK"?'<span class="lock">&#128274;</span>':r.label}</div>`;
+  document.body.appendChild(d);return d;});
+const tileEls={};
+TILES.forEach(t=>{const e=document.createElement('div');e.className='tile';e.style.setProperty('--bg',t.bg);e.innerHTML=`<span style="${t.name.length>11&&!t.name.includes(" ")?"font-size:15px":""}">${t.name}</span>`;document.body.appendChild(e);tileEls[t.id]=e;});
+const cursor=document.getElementById('cursor');
+
+// scene = {boardIn:[start,dur], locked:bool, placed:[{id,row}], move:{id,row,t0}|null, unlock:{t0,label}|null}
+function trayPos(slot){return [TRAY_X+slot*SZ,TRAY_Y];}
+function rowSlotPos(row,idx){return [ROW_X+LABEL_W+idx*SZ,rowY(rowIndex(row))];}
+
+function draw(t,S){
+  // board fade-in
+  const fi=S.fadeIn?easeOut(clamp((t-S.fadeIn[0])/S.fadeIn[1])):1;
+  document.body.style.opacity=1;
+  [panel,document.getElementById('tray-label'),...rowEls].forEach(e=>e.style.opacity=fi);
+  const trayIds=TILES.map(x=>x.id).filter(id=>!S.placed.some(p=>p.id===id));
+  const rowCount={};S.placed.forEach(p=>{rowCount[p.row]=(rowCount[p.row]||0)+1;});
+  const M=S.move; const placedPos={};
+  // static placed tiles
+  const counters={};
+  S.placed.forEach(p=>{const n=counters[p.row]=(counters[p.row]||0);counters[p.row]++;placedPos[p.id]=rowSlotPos(p.row,n);});
+  // tray layout, with the moving tile excluded after pickup/drop
+  const layoutIds=trayIds.slice();
+  let drag=null;
+  if(M){
+    const t0=M.t0, tHover=t0, tPress=t0+0.7, tDragStart=t0+0.95, tDrop=t0+2.75, tRelease=t0+3.05;
+    const slot0=trayIds.indexOf(M.id);
+    const start=trayPos(slot0);
+    const idx=rowCount[M.row]||0; const end=rowSlotPos(M.row,idx);
+    // cursor path start offscreen-ish right-bottom -> tile
+    const cStart=[start[0]+420,start[1]-260];
+    const cTile=[start[0]+70,start[1]+66];
+    const cEnd=[end[0]+70,end[1]+66];
+    let cx,cy,pressed=false,pos=start,scale=1,lift=0;
+    if(t<tPress){const k=ease(clamp((t-tHover)/0.7));cx=cStart[0]+(cTile[0]-cStart[0])*k;cy=cStart[1]+(cTile[1]-cStart[1])*k;}
+    else if(t<tDragStart){cx=cTile[0];cy=cTile[1];pressed=true;}
+    else if(t<tDrop){
+      const k=ease(clamp((t-tDragStart)/(tDrop-tDragStart)));
+      // gentle curve: control point bows up and out
+      const c=[(cTile[0]+cEnd[0])/2+120,Math.min(cTile[1],cEnd[1])-70];
+      const bez=(a,b,cc)=>(1-k)*(1-k)*a+2*(1-k)*k*b+k*k*cc;
+      cx=bez(cTile[0],c[0],cEnd[0]);cy=bez(cTile[1],c[1],cEnd[1]);pressed=true;
+    } else {cx=cEnd[0];cy=cEnd[1];}
+    if(t>=tRelease){const k=clamp((t-tRelease)/0.6);cx=cEnd[0]+260*ease(k);cy=cEnd[1]+90*ease(k);}
+    // tile follows cursor while pressed
+    if(pressed){pos=[cx-70,cy-66];scale=1.06;}
+    else if(t>=tDrop){pos=end;}
+    drag={pos,scale,placed:t>=tDrop};
+    // remove from tray layout after pickup so neighbours slide left after drop
+    if(t>=tDrop){layoutIds.splice(slot0,1);}
+    const cvis=clamp((t-tHover)/0.25)*(t<tRelease+0.6?1:1-clamp((t-tRelease-0.6)/0.25));
+    cursor.style.opacity=cvis;
+    cursor.style.transform=`translate(${cx}px,${cy}px)`;
+    cursor.dataset.c=1;
+  } else {cursor.style.opacity=0;}
+  // place tiles
+  TILES.forEach(tl=>{
+    const e=tileEls[tl.id];let x,y,s=1,vis=fi;
+    if(placedPos[tl.id]){[x,y]=placedPos[tl.id];}
+    else{
+      const slot=layoutIds.indexOf(tl.id);
+      if(M&&tl.id===M.id){[x,y]=drag.pos;s=drag.scale;if(drag.placed){s=1;}}
+      else{
+        // slide left eased after the drop
+        let sl=slot;
+        if(M){const slot0=trayIds.indexOf(M.id);const orig=trayIds.indexOf(tl.id);
+          const k=easeOut(clamp((t-(M.t0+2.75))/0.4));sl=orig-(orig>slot0?k:0);}
+        [x,y]=trayPos(sl);
+      }
+    }
+    e.style.transform=`translate(${x+1}px,${y+1}px) scale(${s})`;
+    e.style.opacity=vis;
+    e.style.zIndex=(M&&tl.id===M.id)?40:10;
+    e.style.boxShadow=(M&&tl.id===M.id&&s>1)?'0 8px 18px rgba(0,0,0,.55)':'none';
+  });
+  // locked row tint stays; unlock reveal handled by S.unlock
+  const lockLabel=rowEls[0].querySelector('.label');
+  if(S.unlock){const k=ease(clamp((t-S.unlock.t0)/0.8));
+    lockLabel.style.background=k>.5?'#ff4d4d':ROWS[0].color;
+    lockLabel.innerHTML=k>.5?`<span style="opacity:${clamp((k-.5)*2)};font-size:26px">SECONDS</span>`:'<span class="lock">&#128274;</span>';}
+}
+window.draw=draw;
+</script></body></html>
