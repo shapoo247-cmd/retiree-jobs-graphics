@@ -5,3 +5,9 @@
   https://commons.wikimedia.org/wiki/File:Chicxulub.jpg
 - Narration: supplied by the channel owner (sampel_short_1_min.MP3).
 - Motion, grading, particles and chapter card: rendered from rough-cut/src (node rough-cut/src/render.mjs <audio.mp3> from tier-board/).
+
+## Stock footage (Pexels, free to use; credit the creators)
+- Night wildfire on a hillside (wildfire.mp4): Arnav Kainthola, https://www.pexels.com/video/wildfire-in-a-forest-7533265/
+- Dark storm clouds (storm.mp4): Felipe David, https://www.pexels.com/video/time-lapse-video-of-clouds-6508285/
+- Gloomy ash clouds (gloomy.mp4): Zahid Akhtar, https://www.pexels.com/video/time-lapse-video-of-a-gloomy-clouds-4325837/
+- Flying sparks overlay (sparks.mp4): Sini Ko, https://www.pexels.com/video/dramatic-flying-sparks-on-black-background-29936066/

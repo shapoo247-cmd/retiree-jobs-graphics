@@ -4,8 +4,8 @@
 @font-face{font-family:Inter;font-weight:600;src:url(inter-latin-600-normal.woff2)}
 @font-face{font-family:Anton;font-weight:400;src:url(anton-latin-400-normal.woff2)}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:1920px;height:1080px;background:#000;overflow:hidden}
-#stage{position:absolute;inset:0;overflow:hidden;background:#000}
+html,body{width:1920px;height:1080px;background:transparent;overflow:hidden}
+#stage{position:absolute;inset:0;overflow:hidden}
 .seg{position:absolute;inset:0;overflow:hidden;opacity:0}
 .seg img.bg{position:absolute;left:0;top:0;display:block}
 .glow{position:absolute;inset:0;mix-blend-mode:screen;pointer-events:none}
@@ -13,6 +13,7 @@ html,body{width:1920px;height:1080px;background:#000;overflow:hidden}
 #fx{position:absolute;inset:0;pointer-events:none}
 #vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 48%,rgba(0,0,0,0) 48%,rgba(0,0,0,.72) 100%)}
 #grain{position:absolute;inset:0;width:1920px;height:1080px;image-rendering:pixelated;mix-blend-mode:overlay;opacity:.11;pointer-events:none}
+#scrim{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none}
 #fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
 #card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none}
 #card .t{font-family:Anton,sans-serif;font-size:210px;letter-spacing:8px;color:#f4ece2;text-shadow:0 6px 30px rgba(0,0,0,.8);line-height:1}
@@ -24,9 +25,9 @@ html,body{width:1920px;height:1080px;background:#000;overflow:hidden}
 <div id="stage"></div>
 <canvas id="fx" width="1920" height="1080"></canvas>
 <div id="vig"></div>
-<div id="card"><div class="t">IMPACT WINTER</div><div class="l"></div><div class="s">66 million years ago &middot; far side of the planet</div></div>
+<div id="scrim"></div><div id="card"><div class="t">IMPACT WINTER</div><div class="l"></div><div class="s">66 million years ago &middot; far side of the planet</div></div>
 <div id="label"></div>
-<canvas id="grain" width="480" height="270"></canvas>
+
 <div id="fade"></div>
 <script>
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
@@ -38,21 +39,21 @@ function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.im
 const MONT=['impact-winter','big-freeze','supervolcano','sea-dried','snowball','great-dying','megaflood','impact-day'];
 const SEGS=[
  // [VISUAL: a far-off glow below the horizon. Sky darkening from one edge.]
- {t0:0,   t1:8.4,  img:'impact-winter', cam:[[1.12,.66,.62],[1.5,.74,.60]], sat:[1,.85], bri:[.75,.95], sweep:[0,1], glow:{x:.74,y:.6,a:[.15,.4]}, embers:0},
+ {t0:0,   t1:8.4,  video:true, sweep:[0,1], embers:0},
  // temperature dropping, every green thing stops growing
- {t0:8.4, t1:14.6, img:'impact-winter', cam:[[1.55,.18,.52],[1.3,.30,.55]], sat:[.7,.2], bri:[.8,.55], embers:30},
+ {t0:8.4, t1:14.6, video:true, embers:30},
  // one of eight catastrophes: each image flashes in
  ...MONT.map((m,i)=>({t0:14.6+i*0.8,t1:15.4+i*0.8,img:m,cam:[[1.0,.4+i*.03,.5],[1.14,.5,.5]],sat:[.95,.95],bri:[.8,.8],fast:true})),
  // tier board (composited in ffmpeg on top of this black)
- {t0:21.0,t1:33.8,black:true},
+ {t0:21.0,t1:33.8,video:true},
  // chapter card
- {t0:33.6,t1:37.9,img:'impact-winter',cam:[[1.35,.5,.5],[1.25,.5,.5]],sat:[.5,.5],bri:[.22,.22],blur:12,card:true},
+ {t0:33.6,t1:37.9,video:true,card:true},
  // 66 million years ago, asteroid struck Mexico
  {t0:37.8,t1:45.8,img:'IMPACTREAL',cam:[[1.05,.52,.52],[1.45,.56,.64]],sat:[.5,.5],bri:[.5,.6],tint:.35,ripple:{x:.56,y:.66,t:39.4},label:'CHICXULUB · YUCATÁN',labelAt:38.6},
  // horizon starting to glow, streaks of light across the whole sky
- {t0:45.6,t1:52.2,img:'impact-winter',cam:[[1.05,.5,.55],[1.4,.72,.6]],sat:[1,.95],bri:[.8,.9],glow:{x:.72,y:.6,a:[.25,.5]},streaks:true},
+ {t0:45.6,t1:52.2,video:true,streaks:true},
  // first day is the dangerous one, debris falling all over the world
- {t0:52.0,t1:60,img:'impact-winter',cam:[[1.1,.4,.55],[1.0,.5,.5]],sat:[.95,.5],bri:[.85,.35],embers:150,streaks:true}
+ {t0:52.0,t1:60,video:true,embers:110,streaks:true}
 ];
 const END=59.376;
 const IMGS={};
@@ -74,7 +75,7 @@ async function load(real){
   await document.fonts.ready;
 }
 const fx=document.getElementById('fx').getContext('2d');
-const grain=document.getElementById('grain'),gx=grain.getContext('2d');
+
 function draw(t,frame){
   let activeEmbers=0,activeStreaks=false,rip=null;
   SEGS.forEach((s,i)=>{
@@ -108,6 +109,7 @@ function draw(t,frame){
   const c=document.getElementById('card');const cs=SEGS.find(s=>s.card);
   const ct=t-cs.t0+0.0;
   c.style.opacity=clamp((t-(cs.t0+0.5))/0.9)*clamp((cs.t1+0.2-t)/0.5);
+  document.getElementById('scrim').style.opacity=clamp((t-cs.t0)/0.7)*clamp((cs.t1+0.4-t)/0.6);
   c.querySelector('.t').style.transform=`translateY(${(1-clamp((t-(cs.t0+0.5))/1.1))*24}px)`;
   c.querySelector('.l').style.width=(900*ease(clamp((t-(cs.t0+1.1))/0.9)))+'px';
   c.querySelector('.s').style.opacity=clamp((t-(cs.t0+1.7))/0.8);
@@ -141,10 +143,6 @@ function draw(t,frame){
       fx.strokeStyle=g;fx.lineWidth=2.5+r()*2;fx.lineCap='round';fx.beginPath();fx.moveTo(hx,hy);fx.lineTo(hx-dx*len,hy-dy*len);fx.stroke();
     }
   }
-  // grain
-  const id=gx.createImageData(480,270);const rr=rng(1000+frame);
-  for(let i=0;i<id.data.length;i+=4){const v=Math.floor(rr()*255);id.data[i]=id.data[i+1]=id.data[i+2]=v;id.data[i+3]=255;}
-  gx.putImageData(id,0,0);
   // global fade-out at end
   document.getElementById('fade').style.opacity=clamp((t-(END-1.3))/1.2);
 }
