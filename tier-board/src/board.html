@@ -13,11 +13,11 @@ html,body{width:1920px;height:1080px;background:#1c1c1c;overflow:hidden;font-fam
 .lock{font-size:40px;color:#777}
 #tray-label{position:absolute;left:150px;top:858px;color:#fff;font-size:26px;font-weight:600}
 #tray-label i{display:inline-block;width:14px;height:14px;background:#e0426a;border-radius:50% 50% 50% 0;transform:rotate(-45deg);margin-right:14px}
-.tile{position:absolute;width:112px;height:112px;overflow:hidden;color:#fff;font-family:Anton,Inter,sans-serif;font-weight:400;font-size:25px;line-height:1.02;letter-spacing:.3px;text-align:center;display:flex;align-items:center;justify-content:center;padding:4px;text-shadow:0 2px 3px #000,0 0 5px #000,0 0 2px #000;will-change:transform}
+.tile{position:absolute;width:112px;height:112px;overflow:hidden;color:#fff;font-family:Anton,Inter,sans-serif;font-weight:400;font-size:25px;line-height:1.02;letter-spacing:.3px;text-align:center;display:flex;align-items:center;justify-content:center;padding:4px;text-shadow:0 2px 3px #000,0 0 5px #000,0 0 2px #000;}
 .tile span{position:relative;z-index:2}
 .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .tile:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.5))}
-#cursor{position:absolute;left:0;top:0;width:34px;height:40px;z-index:50;will-change:transform}
+#cursor{position:absolute;left:0;top:0;width:34px;height:40px;z-index:50;}
 </style></head><body>
 <div id="world">
 <div id="panel"></div>
@@ -66,6 +66,7 @@ const rowIndex=k=>ROWS.findIndex(r=>r.k===k);
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 const easeOut=t=>1-Math.pow(1-t,3);
+const easeSine=t=>-(Math.cos(Math.PI*t)-1)/2;
 const panel=document.getElementById('panel');
 const rowEls=ROWS.map((r,i)=>{
   const d=document.createElement('div');d.className='row';d.style.top=rowY(i)+'px';
@@ -81,12 +82,12 @@ const rowSlotPos=(row,idx)=>[ROW_X+LABEL_W+idx*SZ,rowY(rowIndex(row))];
 function camera(t,S){
   const M=S.move; let s=1,cx=960,cy=540;
   if(M&&S.cam){
-    const rowTop=rowY(rowIndex(M.row)), bottom=TRAY_Y+SZ+30;
-    const span=bottom-rowTop+60;
-    const zs=clamp(1000/span,1.15,2.2);
-    const fx=ROW_X-40+960/zs, fy=(rowTop-30+bottom)/2;
+    const rowTop=rowY(rowIndex(M.row));
+    const top=Math.max(0,rowTop-ROW_H), bottom=TRAY_Y+SZ+36;
+    const zs=clamp(1080/(bottom-top),1.0,2.2);
+    const fx=ROW_X-60+960/zs, fy=top+540/zs;
     const [zin,zdur,zout,zodur]=S.cam;
-    const a=ease(clamp((t-zin)/zdur)), b=ease(clamp((t-zout)/zodur));
+    const a=easeSine(clamp((t-zin)/zdur)), b=easeSine(clamp((t-zout)/zodur));
     const k=a*(1-b);
     s=1+(zs-1)*k; cx=960+(fx-960)*k; cy=540+(fy-540)*k;
   }
@@ -108,7 +109,7 @@ function draw(t,S){
     const slot0=trayIds.indexOf(M.id);
     const start=trayPos(slot0);
     const idx=rowCount[M.row]||0; const end=rowSlotPos(M.row,idx);
-    const cStart=[start[0]+420,start[1]-260], cTile=[start[0]+70,start[1]+66], cEnd=[end[0]+70,end[1]+66];
+    const cStart=[start[0]+330,start[1]+20], cTile=[start[0]+70,start[1]+66], cEnd=[end[0]+70,end[1]+66];
     let cx,cy,pressed=false,pos=start,scale=1;
     if(t<tPress){const k=ease(clamp((t-t0)/0.7));cx=cStart[0]+(cTile[0]-cStart[0])*k;cy=cStart[1]+(cTile[1]-cStart[1])*k;}
     else if(t<tDragStart){cx=cTile[0];cy=cTile[1];pressed=true;}
