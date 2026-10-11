@@ -1,0 +1,67 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Inter;font-weight:600;src:url(inter-latin-600-normal.woff2)}
+@font-face{font-family:Anton;font-weight:400;src:url(anton-latin-400-normal.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;background:#000;overflow:hidden}
+#stage{position:absolute;inset:0;overflow:hidden;background:#000}
+#bg{position:absolute;left:0;top:0;display:block}
+#shade{position:absolute;inset:0}
+#block{position:absolute;display:flex;flex-direction:column}
+#title{font-family:Anton,sans-serif;color:#f6f1ea;line-height:1.02;text-shadow:0 4px 24px rgba(0,0,0,.55)}
+#rule{height:3px;background:rgba(246,241,234,.7);width:0}
+#sub{font-family:Inter,sans-serif;font-weight:600;color:#e9e0d1;text-shadow:0 2px 14px rgba(0,0,0,.6)}
+#cover{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none}
+</style></head><body>
+<div id="stage"><img id="bg"><div id="shade"></div><div id="block"><div id="title"></div><div id="rule"></div><div id="sub"></div></div><div id="cover"></div></div>
+<script>
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+const easeOut=t=>1-Math.pow(1-t,3);
+let C=null;
+async function setup(cfg){
+  C=cfg;
+  const bg=document.getElementById('bg');
+  await new Promise(r=>{bg.onload=r;bg.src='../../rough-cut/assets/'+cfg.img+'.jpg';});
+  document.getElementById('title').textContent=cfg.title;
+  document.getElementById('sub').textContent=cfg.sub;
+  const full=cfg.type==='FULL', b=document.getElementById('block'), ti=document.getElementById('title'), su=document.getElementById('sub');
+  if(full){
+    b.style.cssText+=';left:0;right:0;top:0;bottom:0;align-items:center;justify-content:center;text-align:center';
+    ti.style.fontSize=(cfg.title.length>16?150:182)+'px';ti.style.letterSpacing='6px';
+    su.style.fontSize='40px';su.style.letterSpacing='1.5px';su.style.marginTop='30px';
+    document.getElementById('rule').style.margin='34px 0 0';
+    document.getElementById('shade').style.background='radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.28) 0%,rgba(0,0,0,.62) 100%)';
+  } else {
+    b.style.cssText+=';left:120px;bottom:120px;align-items:flex-start';
+    ti.style.fontSize=(cfg.title.length>16?88:104)+'px';ti.style.letterSpacing='4px';
+    su.style.fontSize='34px';su.style.letterSpacing='1.2px';su.style.marginTop='20px';
+    document.getElementById('rule').style.margin='22px 0 0';
+    document.getElementById('shade').style.background='linear-gradient(0deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.45) 26%,rgba(0,0,0,0) 56%)';
+  }
+  await document.fonts.ready;
+}
+function draw(t){
+  const full=C.type==='FULL', D=C.dur;
+  // image: gentle push, focus per image
+  const k=clamp(t/D), s=1.0+(full?0.07:0.05)*ease(k);
+  const bg=document.getElementById('bg'), asp=bg.naturalWidth/bg.naturalHeight;
+  let W=1080*asp*s,H=1080*s; if(W<1920*s){const f=1920*s/W;W*=f;H*=f;}
+  let left=960-C.fx*W, top=540-0.5*H; left=Math.min(0,Math.max(1920-W,left)); top=Math.min(0,Math.max(1080-H,top));
+  bg.style.width=W+'px';bg.style.height=H+'px';bg.style.left=left+'px';bg.style.top=top+'px';
+  bg.style.filter=`brightness(${full?0.82:0.92}) saturate(.95)`;
+  // timings
+  const T=full?{bg:.7,t0:.6,t1:1.5,r0:1.3,r1:2.2,s0:1.7,s1:2.5,out:D-.7}:{bg:.4,t0:.35,t1:.95,r0:.7,r1:1.3,s0:.85,s1:1.45,out:D-.5};
+  const ti=document.getElementById('title'), su=document.getElementById('sub'), ru=document.getElementById('rule');
+  const a=easeOut(clamp((t-T.t0)/(T.t1-T.t0)));
+  ti.style.opacity=a; ti.style.transform=`translateY(${(1-a)*22}px)`;
+  ru.style.width=(full?760:340)*ease(clamp((t-T.r0)/(T.r1-T.r0)))+'px';
+  const b=easeOut(clamp((t-T.s0)/(T.s1-T.s0)));
+  su.style.opacity=b; su.style.transform=`translateY(${(1-b)*14}px)`;
+  // fade from black in, to black out
+  const cin=1-clamp(t/T.bg), cout=clamp((t-T.out)/(D-T.out));
+  document.getElementById('cover').style.opacity=Math.max(cin,cout);
+}
+window.setup=setup;window.draw=draw;
+</script></body></html>
